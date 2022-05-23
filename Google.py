@@ -31,7 +31,12 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
         with open(pickle_file, 'wb') as token:
             pickle.dump(cred, token)
 
-    service = build(API_SERVICE_NAME, API_VERSION, credentials=cred)
+    try:
+        service = build(API_SERVICE_NAME, API_VERSION, credentials=cred)
+    except:
+        DISCOVERY_SERVICE_URL = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
+        service = build(API_SERVICE_NAME, API_VERSION, credentials=cred, discoveryServiceUrl=DISCOVERY_SERVICE_URL)
+
     return service
 
 
