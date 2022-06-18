@@ -1,9 +1,10 @@
 from discord.ext import commands
 import discord
 from scoreboard_pilna import ScoreBoard
-TOKEN = "OTg2NjM4MzU0NTUwNDg5MTc4.GsHjTw.6xcWsjz3uVYeMb32aMXop8v5dxd8AYkXG_v-bs"
+import os
 
 bot = commands.Bot(command_prefix='/')
+DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
 
 def get_embed(data: dict, time_range="") -> discord.Embed:
@@ -109,4 +110,4 @@ async def t_help(ctx):
     await ctx.channel.send(result)
 
 
-bot.run(TOKEN)
+bot.run(DISCORD_BOT_TOKEN)

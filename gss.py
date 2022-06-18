@@ -1,11 +1,12 @@
 from Google import Create_Service
 import pandas as pd
+import os
 
-API_NAME = 'sheets'
-API_VERSION = 'v4'
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-CLIENT_SECRET_FILE = "client_secret.json"
-SPREADSHEET_ID = "1cCn9naiHvyi9UENNp-HuUcUTpyCDbGvats_r1pJ6Q8Y"
+API_NAME = os.environ['API_NAME']
+API_VERSION = os.environ['API_VERSION']
+SCOPES = os.environ['SCOPES']
+CLIENT_SECRET_FILE = os.environ['CLIENT_SECRET_FILE']
+SPREADSHEET_ID = os.environ['SPREADSHEET_ID']
 
 
 class GSheets:
@@ -33,4 +34,3 @@ class GSheets:
         data['data'] = pd.to_datetime(data['data'])
 
         self.df = data
-
