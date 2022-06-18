@@ -1,0 +1,36 @@
+from Google import Create_Service
+import pandas as pd
+
+API_NAME = 'sheets'
+API_VERSION = 'v4'
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+CLIENT_SECRET_FILE = "client_secret.json"
+SPREADSHEET_ID = "1cCn9naiHvyi9UENNp-HuUcUTpyCDbGvats_r1pJ6Q8Y"
+
+
+class GSheets:
+
+    def __init__(self):
+        self.df = pd.DataFrame()
+        self.update_data(2)
+
+    def update_data(self, start: int):
+
+        service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+        result = service.spreadsheets().values().get(
+            spreadsheetId=SPREADSHEET_ID,
+            majorDimension='ROWS',
+            range='Pilna Pomoc!' + f"A{start}:G{start + 30000}"
+        ).execute()
+
+        data = pd.DataFrame(result['values'])
+
+        data.columns = ['nauczyciel', 'grupa', 'link', 'status', 'osoba', 'przedmiot', 'data']
+
+        data['osoba'] = data['osoba'].str.strip().str.title()
+        data['data'] = data['data'].str.strip()
+        data['data'] = pd.to_datetime(data['data'])
+
+        self.df = data
+
